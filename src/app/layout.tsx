@@ -3,6 +3,7 @@
 import { globalStyles } from '@/styles/gobal'
 import { getCssText } from '@ignite-ui/react'
 import { Roboto } from 'next/font/google'
+import { SessionProvider } from 'next-auth/react'
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] })
 
@@ -21,7 +22,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: getCssText() }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <SessionProvider>{children}</SessionProvider>
+      </body>
     </html>
   )
 }
