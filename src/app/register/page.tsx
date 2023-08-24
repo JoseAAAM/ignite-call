@@ -7,7 +7,7 @@ import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { api } from '@/lib/axios'
 import { AxiosError } from 'axios'
 
@@ -36,6 +36,7 @@ export default function Register() {
   })
 
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   useEffect(() => {
     const username = searchParams.get('username')
@@ -51,6 +52,8 @@ export default function Register() {
         name: data.name,
         username: data.username,
       })
+
+      router.push('/register/connect-calendar')
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         alert(err.response?.data?.message)
@@ -92,7 +95,7 @@ export default function Register() {
           />
           {errors.name && <FormError>{errors.name.message}</FormError>}
         </label>
-        <Button type="submit">
+        <Button type="submit" disabled={isSubmitting}>
           Próximo passo
           <ArrowRight />
         </Button>
